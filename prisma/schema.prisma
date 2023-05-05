@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model lists {
+  id         Int      @id(map: "lists_pk")
+  title      String
+  user_id    Int
+  created_at DateTime @default(dbgenerated("'2023-05-05 13:54:47.782254'::timestamp without time zone")) @db.Timestamp(6)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "lists_fk0")
+  tasks      tasks[]
+}
+
+model pomodoro {
+  id               Int      @id(map: "pomodoro_pk") @default(autoincrement())
+  task_id          Int
+  number_cycles    Int
+  completed_cycles Int      @default(0)
+  created_at       DateTime @default(dbgenerated("'2023-05-05 13:54:47.782254'::timestamp without time zone")) @db.Timestamp(6)
+  tasks            tasks    @relation(fields: [task_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pomodoro_fk0")
+}
+
+model sessions {
+  id         Int      @id(map: "sessions_pk") @default(autoincrement())
+  user_id    Int
+  token      String
+  active     Boolean  @default(true)
+  created_at DateTime @default(dbgenerated("'2023-05-05 13:54:47.782254'::timestamp without time zone")) @db.Timestamp(6)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "sessions_fk0")
+}
+
+model tasks {
+  id             Int        @id(map: "tasks_pk") @default(autoincrement())
+  list_id        Int
+  name           String
+  anotation      String
+  date           DateTime   @db.Date
+  using_pomodoro Boolean    @default(false)
+  created_at     DateTime   @default(dbgenerated("'2023-05-05 13:54:47.782254'::timestamp without time zone")) @db.Timestamp(6)
+  lists          lists      @relation(fields: [list_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tasks_fk0")
+  pomodoro       pomodoro[]
+}
+
+model users {
+  id         Int        @id(map: "users_pk") @default(autoincrement())
+  name       String
+  email      String
+  password   String
+  created_at DateTime   @default(dbgenerated("'2023-05-05 13:54:47.782254'::timestamp without time zone")) @db.Timestamp(6)
+  lists      lists[]
+  sessions   sessions[]
+}
