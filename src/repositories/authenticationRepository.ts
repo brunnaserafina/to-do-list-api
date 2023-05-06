@@ -8,9 +8,14 @@ async function findUniqueEmail(email: string) {
   return prisma.users.findFirst({ where: { email } });
 }
 
+async function createSession(userId: number, token: string) {
+  return prisma.sessions.create({ data: { user_id: userId, token } });
+}
+
 const authenticationRepository = {
   createUser,
   findUniqueEmail,
+  createSession
 };
 
 export default authenticationRepository;
