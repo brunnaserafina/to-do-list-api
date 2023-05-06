@@ -1,5 +1,5 @@
 import { AuthenticatedRequest } from "@/middlewares/authenticatedMiddleware";
-import { newList, TitleListParams } from "@/services/listsService";
+import { allLists, newList, TitleListParams } from "@/services/listsService";
 import { Response } from "express";
 import httpStatus from "http-status";
 
@@ -10,6 +10,17 @@ export async function newListPost(req: AuthenticatedRequest, res: Response) {
   try {
     await newList({ title, userId });
     return res.sendStatus(httpStatus.CREATED);
+  } catch (error) {
+    return res.status(httpStatus.UNAUTHORIZED).send({});
+  }
+}
+
+export async function allListsGet(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+
+  try {
+    const lists = await allLists(userId);
+    return res.status(httpStatus.OK).send(lists);
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).send({});
   }

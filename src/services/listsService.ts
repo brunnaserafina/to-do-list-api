@@ -6,4 +6,10 @@ export async function newList(params: TitleListParams): Promise<void> {
   listRepository.createList(title, userId);
 }
 
+export async function allLists(userId: number) {
+  const listsByUser = listRepository.findManyListsByUserId(userId);
+
+  return listsByUser;
+}
+
 export type TitleListParams = { title: string; userId: number };
