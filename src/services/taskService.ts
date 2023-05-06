@@ -16,4 +16,8 @@ export async function allTasksFinished(listId: number) {
   return tasks;
 }
 
+export async function editTaskFinished(taskId: number) {
+  await tasksRepository.updateFinishedTask(taskId);
+}
+
 export type TitleTaskParams = { name: string };
