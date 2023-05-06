@@ -1,4 +1,4 @@
-import { allTasksUnfinished, newTask, TitleTaskParams } from "./../services/taskService";
+import { allTasksFinished, allTasksUnfinished, newTask, TitleTaskParams } from "./../services/taskService";
 import { AuthenticatedRequest } from "@/middlewares/authenticatedMiddleware";
 import { Response } from "express";
 import httpStatus from "http-status";
@@ -25,3 +25,15 @@ export async function unfinishedTasksGet(req: AuthenticatedRequest, res: Respons
     return res.status(httpStatus.UNAUTHORIZED).send({});
   }
 }
+
+export async function finishedTasksGet(req: AuthenticatedRequest, res: Response) {
+  const { listId } = req.params;
+
+  try {
+    const tasksFinished = await allTasksFinished(Number(listId));
+    return res.status(httpStatus.OK).send(tasksFinished);
+  } catch (error) {
+    return res.status(httpStatus.UNAUTHORIZED).send({});
+  }
+}
+

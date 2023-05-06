@@ -10,4 +10,10 @@ export async function allTasksUnfinished(listId: number) {
   return tasks;
 }
 
+export async function allTasksFinished(listId: number) {
+  const tasks = await tasksRepository.findManyFinishedTasks(listId);
+
+  return tasks;
+}
+
 export type TitleTaskParams = { name: string };
