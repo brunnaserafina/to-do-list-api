@@ -11,7 +11,7 @@ model lists {
   id         Int      @id(map: "lists_pk") @default(autoincrement())
   title      String
   user_id    Int
-  created_at DateTime @default(dbgenerated("'2023-05-06 12:52:53.358634'::timestamp without time zone")) @db.Timestamp(6)
+  created_at DateTime @default(dbgenerated("'2023-05-06 17:23:51.623405'::timestamp without time zone")) @db.Timestamp(6)
   users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "lists_fk0")
   tasks      tasks[]
 }
@@ -21,7 +21,7 @@ model pomodoro {
   task_id          Int
   number_cycles    Int
   completed_cycles Int      @default(0)
-  created_at       DateTime @default(dbgenerated("'2023-05-06 12:52:53.358634'::timestamp without time zone")) @db.Timestamp(6)
+  created_at       DateTime @default(dbgenerated("'2023-05-06 17:23:51.623405'::timestamp without time zone")) @db.Timestamp(6)
   tasks            tasks    @relation(fields: [task_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pomodoro_fk0")
 }
 
@@ -30,7 +30,7 @@ model sessions {
   user_id    Int
   token      String
   active     Boolean  @default(true)
-  created_at DateTime @default(dbgenerated("'2023-05-06 12:52:53.358634'::timestamp without time zone")) @db.Timestamp(6)
+  created_at DateTime @default(dbgenerated("'2023-05-06 17:23:51.623405'::timestamp without time zone")) @db.Timestamp(6)
   users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "sessions_fk0")
 }
 
@@ -41,7 +41,8 @@ model tasks {
   anotation      String
   date           DateTime   @db.Date
   using_pomodoro Boolean    @default(false)
-  created_at     DateTime   @default(dbgenerated("'2023-05-06 12:52:53.358634'::timestamp without time zone")) @db.Timestamp(6)
+  is_completed   Boolean    @default(false)
+  created_at     DateTime   @default(dbgenerated("'2023-05-06 17:23:51.623405'::timestamp without time zone")) @db.Timestamp(6)
   lists          lists      @relation(fields: [list_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tasks_fk0")
   pomodoro       pomodoro[]
 }
@@ -51,7 +52,7 @@ model users {
   name       String
   email      String
   password   String
-  created_at DateTime   @default(dbgenerated("'2023-05-06 12:52:53.358634'::timestamp without time zone")) @db.Timestamp(6)
+  created_at DateTime   @default(dbgenerated("'2023-05-06 17:23:51.623405'::timestamp without time zone")) @db.Timestamp(6)
   lists      lists[]
   sessions   sessions[]
 }
