@@ -4,7 +4,8 @@ import express, { Express } from "express";
 import cors from "cors";
 
 import { loadEnv, connectDb, disconnectDB } from "@/config";
-import { authenticationRouter } from "./routers/authentication-router";
+import { authenticationRouter } from "./routers/authenticationRouter";
+import { listsRouter } from "./routers/listsRouter";
 
 loadEnv();
 
@@ -13,7 +14,8 @@ app
   .use(cors())
   .use(express.json())
   .get("/status", (_req, res) => res.send("OK!"))
-  .use("/auth", authenticationRouter);
+  .use("/auth", authenticationRouter)
+  .use("/lists", listsRouter);
 
 export function init(): Promise<Express> {
   connectDb();
