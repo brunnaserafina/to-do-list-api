@@ -22,7 +22,7 @@ async function deleteTask(listId: number) {
 
 async function getTasksBySearch(search: string, userId: number) {
   return prisma.tasks.findMany({
-    where: { name: { startsWith: search }, lists: { user_id: userId } },
+    where: { name: { contains: search.toLowerCase(), mode: "insensitive" }, lists: { user_id: userId } },
     include: { lists: true },
   });
 }
