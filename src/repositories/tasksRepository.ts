@@ -16,6 +16,16 @@ async function updateFinishedTask(taskId: number) {
   return prisma.tasks.update({ where: { id: taskId }, data: { is_completed: true } });
 }
 
-const tasksRepository = { createTask, findManyUnfinishedTasks, findManyFinishedTasks, updateFinishedTask };
+async function deleteTask(listId: number) {
+  return prisma.tasks.deleteMany({ where: { list_id: listId } });
+}
+
+const tasksRepository = {
+  createTask,
+  findManyUnfinishedTasks,
+  findManyFinishedTasks,
+  updateFinishedTask,
+  deleteTask,
+};
 
 export default tasksRepository;

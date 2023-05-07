@@ -8,6 +8,10 @@ async function findManyListsByUserId(userId: number) {
   return prisma.lists.findMany({ where: { user_id: userId } });
 }
 
-const listRepository = { createList, findManyListsByUserId };
+async function deleteListByListId(listId: number) {
+  return prisma.lists.delete({ where: { id: listId } });
+}
+
+const listRepository = { createList, findManyListsByUserId, deleteListByListId };
 
 export default listRepository;
