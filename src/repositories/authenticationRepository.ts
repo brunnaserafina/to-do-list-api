@@ -12,10 +12,27 @@ async function createSession(userId: number, token: string) {
   return prisma.sessions.create({ data: { user_id: userId, token } });
 }
 
+async function findToken(token: string) {
+  return prisma.sessions.findFirst({
+    where: {
+      token,
+    },
+  });
+}
+
+async function updateSessionToFinish(sessionId: number) {
+  return prisma.sessions.update({
+    where: { id: sessionId },
+    data: { active: false },
+  });
+}
+
 const authenticationRepository = {
   createUser,
   findUniqueEmail,
-  createSession
+  createSession,
+  findToken,
+  updateSessionToFinish,
 };
 
 export default authenticationRepository;

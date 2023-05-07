@@ -39,6 +39,12 @@ export async function signIn(params: SignInParams) {
   };
 }
 
+export async function finalizeSession(token: string) {
+  const findToken = await authenticationRepository.findToken(token);
+
+  await authenticationRepository.updateSessionToFinish(findToken.id);
+}
+
 async function createUser({ name, email, password }: SignUpParams) {
   const encryptedPassword = await bcrypt.hash(password, 12);
 
