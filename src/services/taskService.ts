@@ -20,4 +20,10 @@ export async function editTaskFinished(taskId: number) {
   await tasksRepository.updateFinishedTask(taskId);
 }
 
+export async function searchTask(search: string, userId: number) {
+  const tasks = await tasksRepository.getTasksBySearch(search, userId);
+
+  return tasks;
+}
+
 export type TitleTaskParams = { name: string };

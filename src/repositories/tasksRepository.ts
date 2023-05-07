@@ -20,12 +20,20 @@ async function deleteTask(listId: number) {
   return prisma.tasks.deleteMany({ where: { list_id: listId } });
 }
 
+async function getTasksBySearch(search: string, userId: number) {
+  return prisma.tasks.findMany({
+    where: { name: { startsWith: search }, lists: { user_id: userId } },
+    include: { lists: true },
+  });
+}
+
 const tasksRepository = {
   createTask,
   findManyUnfinishedTasks,
   findManyFinishedTasks,
   updateFinishedTask,
   deleteTask,
+  getTasksBySearch,
 };
 
 export default tasksRepository;

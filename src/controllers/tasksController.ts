@@ -1,4 +1,11 @@
-import { allTasksFinished, allTasksUnfinished, editTaskFinished, newTask, TitleTaskParams } from "./../services/taskService";
+import {
+  allTasksFinished,
+  allTasksUnfinished,
+  editTaskFinished,
+  newTask,
+  searchTask,
+  TitleTaskParams,
+} from "./../services/taskService";
 import { AuthenticatedRequest } from "@/middlewares/authenticatedMiddleware";
 import { Response } from "express";
 import httpStatus from "http-status";
@@ -43,6 +50,24 @@ export async function editTasksPut(req: AuthenticatedRequest, res: Response) {
   try {
     await editTaskFinished(Number(taskId));
     return res.sendStatus(httpStatus.OK);
+  } catch (error) {
+    return res.status(httpStatus.UNAUTHORIZED).send({});
+  }
+}
+
+export async function getSearchTasks(req: AuthenticatedRequest, res: Response) {
+  const { search } = req.query as { search: string };
+  const { userId } = req;
+
+  if (!search) {
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
+
+  const searchLowerCase = search.toLowerCase();
+
+  try {
+    const tasks = await searchTask(searchLowerCase, userId);
+    return res.status(httpStatus.OK).send({ tasks });
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).send({});
   }
