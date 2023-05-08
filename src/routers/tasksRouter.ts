@@ -10,6 +10,7 @@ import {
   newTaskPost,
   putAnotationTask,
   unfinishedTasksGet,
+  deleteTask,
 } from "@/controllers/tasksController";
 
 const tasksRouter = Router();
@@ -22,6 +23,7 @@ tasksRouter
   .put("/edit/:taskId", editTasksPut)
   .get("/", getSearchTasks)
   .get("/:taskId", getTask)
-  .put("/anotation/:taskId", putAnotationTask);
+  .put("/anotation/:taskId", putAnotationTask)
+  .delete("/:taskId", deleteTask);
 
 export { tasksRouter };

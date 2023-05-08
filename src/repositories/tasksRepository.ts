@@ -35,6 +35,10 @@ async function updateAnotationByTaskId(taskId: number, anotation: string) {
   return prisma.tasks.update({ where: { id: taskId }, data: { anotation } });
 }
 
+async function deleteTaskByTaskId(taskId: number) {
+  return prisma.tasks.delete({ where: { id: taskId } });
+}
+
 const tasksRepository = {
   createTask,
   findManyUnfinishedTasks,
@@ -43,7 +47,8 @@ const tasksRepository = {
   deleteTask,
   getTasksBySearch,
   findTaskById,
-  updateAnotationByTaskId
+  updateAnotationByTaskId,
+  deleteTaskByTaskId,
 };
 
 export default tasksRepository;

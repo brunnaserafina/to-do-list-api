@@ -98,3 +98,14 @@ export async function putAnotationTask(req: AuthenticatedRequest, res: Response)
     return res.sendStatus(httpStatus.UNAUTHORIZED);
   }
 }
+
+export async function deleteTask(req: AuthenticatedRequest, res: Response) {
+  const { taskId } = req.params;
+
+  try {
+    await deleteTaskById(Number(taskId));
+    return res.sendStatus(httpStatus.OK);
+  } catch (error) {
+    return res.sendStatus(httpStatus.UNAUTHORIZED);
+  }
+}

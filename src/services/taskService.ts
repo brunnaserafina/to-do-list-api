@@ -35,4 +35,8 @@ export async function editAnotationByTaskId(taskId: number, anotation: string) {
   await tasksRepository.updateAnotationByTaskId(taskId, anotation);
 }
 
+export async function deleteTaskById(taskId: number) {
+  await tasksRepository.deleteTaskByTaskId(taskId);
+}
+
 export type TitleTaskParams = { name: string };
