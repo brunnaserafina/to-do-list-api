@@ -5,7 +5,7 @@ async function createTask(name: string, listId: number) {
 }
 
 async function findManyUnfinishedTasks(listId: number) {
-  return prisma.tasks.findMany({ where: { list_id: listId, is_completed: false } });
+  return prisma.tasks.findMany({ where: { list_id: listId, is_completed: false }, orderBy: { created_at: "asc" } });
 }
 
 async function findManyFinishedTasks(listId: number) {
@@ -27,6 +27,10 @@ async function getTasksBySearch(search: string, userId: number) {
   });
 }
 
+async function findTaskById(taskId: number) {
+  return prisma.tasks.findUnique({ where: { id: taskId } });
+}
+
 const tasksRepository = {
   createTask,
   findManyUnfinishedTasks,
@@ -34,6 +38,7 @@ const tasksRepository = {
   updateFinishedTask,
   deleteTask,
   getTasksBySearch,
+  findTaskById,
 };
 
 export default tasksRepository;

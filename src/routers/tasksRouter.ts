@@ -6,6 +6,7 @@ import {
   editTasksPut,
   finishedTasksGet,
   getSearchTasks,
+  getTask,
   newTaskPost,
   unfinishedTasksGet,
 } from "@/controllers/tasksController";
@@ -18,6 +19,7 @@ tasksRouter
   .get("/unfinished/:listId", unfinishedTasksGet)
   .get("/finished/:listId", finishedTasksGet)
   .put("/edit/:taskId", editTasksPut)
-  .get("/", getSearchTasks);
+  .get("/", getSearchTasks)
+  .get("/:taskId", getTask);
 
 export { tasksRouter };

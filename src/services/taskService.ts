@@ -26,4 +26,9 @@ export async function searchTask(search: string, userId: number) {
   return tasks;
 }
 
+export async function getTaskById(taskId: number) {
+  const findTask = await tasksRepository.findTaskById(taskId);
+  return findTask;
+}
+
 export type TitleTaskParams = { name: string };

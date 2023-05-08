@@ -2,6 +2,7 @@ import {
   allTasksFinished,
   allTasksUnfinished,
   editTaskFinished,
+  getTaskById,
   newTask,
   searchTask,
   TitleTaskParams,
@@ -70,5 +71,16 @@ export async function getSearchTasks(req: AuthenticatedRequest, res: Response) {
     return res.status(httpStatus.OK).send({ tasks });
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).send({});
+  }
+}
+
+export async function getTask(req: AuthenticatedRequest, res: Response) {
+  const { taskId } = req.params;
+
+  try {
+    const findTask = await getTaskById(Number(taskId));
+    return res.status(httpStatus.OK).send([findTask]);
+  } catch (error) {
+    return res.sendStatus(httpStatus.UNAUTHORIZED);
   }
 }
