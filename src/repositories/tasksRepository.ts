@@ -31,6 +31,10 @@ async function findTaskById(taskId: number) {
   return prisma.tasks.findUnique({ where: { id: taskId } });
 }
 
+async function updateAnotationByTaskId(taskId: number, anotation: string) {
+  return prisma.tasks.update({ where: { id: taskId }, data: { anotation } });
+}
+
 const tasksRepository = {
   createTask,
   findManyUnfinishedTasks,
@@ -39,6 +43,7 @@ const tasksRepository = {
   deleteTask,
   getTasksBySearch,
   findTaskById,
+  updateAnotationByTaskId
 };
 
 export default tasksRepository;

@@ -8,6 +8,7 @@ import {
   getSearchTasks,
   getTask,
   newTaskPost,
+  putAnotationTask,
   unfinishedTasksGet,
 } from "@/controllers/tasksController";
 
@@ -20,6 +21,7 @@ tasksRouter
   .get("/finished/:listId", finishedTasksGet)
   .put("/edit/:taskId", editTasksPut)
   .get("/", getSearchTasks)
-  .get("/:taskId", getTask);
+  .get("/:taskId", getTask)
+  .put("/anotation/:taskId", putAnotationTask);
 
 export { tasksRouter };

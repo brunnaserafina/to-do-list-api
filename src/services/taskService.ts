@@ -31,4 +31,8 @@ export async function getTaskById(taskId: number) {
   return findTask;
 }
 
+export async function editAnotationByTaskId(taskId: number, anotation: string) {
+  await tasksRepository.updateAnotationByTaskId(taskId, anotation);
+}
+
 export type TitleTaskParams = { name: string };

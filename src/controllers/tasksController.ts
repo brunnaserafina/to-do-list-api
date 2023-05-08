@@ -1,6 +1,8 @@
 import {
   allTasksFinished,
   allTasksUnfinished,
+  deleteTaskById,
+  editAnotationByTaskId,
   editTaskFinished,
   getTaskById,
   newTask,
@@ -80,6 +82,18 @@ export async function getTask(req: AuthenticatedRequest, res: Response) {
   try {
     const findTask = await getTaskById(Number(taskId));
     return res.status(httpStatus.OK).send([findTask]);
+  } catch (error) {
+    return res.sendStatus(httpStatus.UNAUTHORIZED);
+  }
+}
+
+export async function putAnotationTask(req: AuthenticatedRequest, res: Response) {
+  const { taskId } = req.params;
+  const { anotation } = req.body;
+
+  try {
+    await editAnotationByTaskId(Number(taskId), anotation);
+    return res.sendStatus(httpStatus.OK);
   } catch (error) {
     return res.sendStatus(httpStatus.UNAUTHORIZED);
   }
