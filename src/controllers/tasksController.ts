@@ -4,6 +4,7 @@ import {
   deleteTaskById,
   editAnotationByTaskId,
   editTaskFinished,
+  editTaskUnfinished,
   getTaskById,
   newTask,
   searchTask,
@@ -52,6 +53,17 @@ export async function editTasksPut(req: AuthenticatedRequest, res: Response) {
 
   try {
     await editTaskFinished(Number(taskId));
+    return res.sendStatus(httpStatus.OK);
+  } catch (error) {
+    return res.status(httpStatus.UNAUTHORIZED).send({});
+  }
+}
+
+export async function editTaskUnfinishedPut(req: AuthenticatedRequest, res: Response) {
+  const { taskId } = req.params;
+
+  try {
+    await editTaskUnfinished(Number(taskId));
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).send({});

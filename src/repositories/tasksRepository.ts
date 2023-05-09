@@ -16,6 +16,10 @@ async function updateFinishedTask(taskId: number) {
   return prisma.tasks.update({ where: { id: taskId }, data: { is_completed: true } });
 }
 
+async function updateUnfinishedTask(taskId: number) {
+  return prisma.tasks.update({ where: { id: taskId }, data: { is_completed: false } });
+}
+
 async function deleteTask(listId: number) {
   return prisma.tasks.deleteMany({ where: { list_id: listId } });
 }
@@ -49,6 +53,7 @@ const tasksRepository = {
   findTaskById,
   updateAnotationByTaskId,
   deleteTaskByTaskId,
+  updateUnfinishedTask
 };
 
 export default tasksRepository;
