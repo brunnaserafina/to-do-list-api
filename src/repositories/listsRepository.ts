@@ -12,6 +12,10 @@ async function deleteListByListId(listId: number) {
   return prisma.lists.delete({ where: { id: listId } });
 }
 
-const listRepository = { createList, findManyListsByUserId, deleteListByListId };
+async function editListByListId(listId: number, title: string) {
+  return prisma.lists.update({ where: { id: listId }, data: { title } });
+}
+
+const listRepository = { createList, findManyListsByUserId, deleteListByListId, editListByListId };
 
 export default listRepository;
