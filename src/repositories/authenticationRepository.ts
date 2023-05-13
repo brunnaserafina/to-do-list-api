@@ -9,7 +9,7 @@ async function findUniqueEmail(email: string) {
 }
 
 async function createSession(userId: number, token: string) {
-  return prisma.sessions.create({ data: { user_id: userId, token } });
+  return prisma.sessions.create({ data: { user_id: userId, token, active: true } });
 }
 
 async function findToken(token: string) {

@@ -22,7 +22,7 @@ export async function newTaskPost(req: AuthenticatedRequest, res: Response) {
     await newTask(name, Number(listId));
     return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
-    return res.status(httpStatus.UNAUTHORIZED).send({});
+    return res.status(httpStatus.UNAUTHORIZED).send({ error });
   }
 }
 
@@ -44,7 +44,7 @@ export async function finishedTasksGet(req: AuthenticatedRequest, res: Response)
     const tasksFinished = await allTasksFinished(Number(listId));
     return res.status(httpStatus.OK).send(tasksFinished);
   } catch (error) {
-    return res.status(httpStatus.UNAUTHORIZED).send({});
+    return res.status(httpStatus.UNAUTHORIZED).send(error);
   }
 }
 
@@ -101,10 +101,10 @@ export async function getTask(req: AuthenticatedRequest, res: Response) {
 
 export async function putAnotationTask(req: AuthenticatedRequest, res: Response) {
   const { taskId } = req.params;
-  const { anotation } = req.body;
+  const { annotation, date } = req.body;
 
   try {
-    await editAnotationByTaskId(Number(taskId), anotation);
+    await editAnotationByTaskId(Number(taskId), annotation, date);
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     return res.sendStatus(httpStatus.UNAUTHORIZED);

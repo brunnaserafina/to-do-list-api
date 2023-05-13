@@ -35,8 +35,8 @@ export async function getTaskById(taskId: number) {
   return findTask;
 }
 
-export async function editAnotationByTaskId(taskId: number, anotation: string) {
-  await tasksRepository.updateAnotationByTaskId(taskId, anotation);
+export async function editAnotationByTaskId(taskId: number, anotation: string, date: Date) {
+  await tasksRepository.updateAnotationByTaskId(taskId, anotation, date);
 }
 
 export async function deleteTaskById(taskId: number) {

@@ -1,7 +1,7 @@
 import { prisma } from "@/config";
 
 async function createTask(name: string, listId: number) {
-  return prisma.tasks.create({ data: { list_id: listId, name, anotation: "", date: new Date() } });
+  return prisma.tasks.create({ data: { list_id: listId, name, annotation: "" } });
 }
 
 async function findManyUnfinishedTasks(listId: number) {
@@ -9,7 +9,7 @@ async function findManyUnfinishedTasks(listId: number) {
 }
 
 async function findManyFinishedTasks(listId: number) {
-  return prisma.tasks.findMany({ where: { list_id: listId, is_completed: true } });
+  return prisma.tasks.findMany({ where: { list_id: listId, is_completed: true }, orderBy: { created_at: "desc" } });
 }
 
 async function updateFinishedTask(taskId: number) {
@@ -35,8 +35,8 @@ async function findTaskById(taskId: number) {
   return prisma.tasks.findUnique({ where: { id: taskId } });
 }
 
-async function updateAnotationByTaskId(taskId: number, anotation: string) {
-  return prisma.tasks.update({ where: { id: taskId }, data: { anotation } });
+async function updateAnotationByTaskId(taskId: number, annotation: string, date: Date) {
+  return prisma.tasks.update({ where: { id: taskId }, data: { annotation, date } });
 }
 
 async function deleteTaskByTaskId(taskId: number) {
@@ -53,7 +53,7 @@ const tasksRepository = {
   findTaskById,
   updateAnotationByTaskId,
   deleteTaskByTaskId,
-  updateUnfinishedTask
+  updateUnfinishedTask,
 };
 
 export default tasksRepository;
