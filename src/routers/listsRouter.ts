@@ -1,16 +1,17 @@
-import { titleListSchema } from "./../schemas/listsSchema";
 import { Router } from "express";
 import { validateBody } from "@/middlewares/validationMiddleware";
-import { allListsGet, editTitleList, listDelete, newListPost } from "@/controllers/listsController";
+import { allListsGet, editOrderList, editTitleList, listDelete, newListPost } from "@/controllers/listsController";
 import { authenticateToken } from "@/middlewares/authenticatedMiddleware";
+import { newListSchema, orderListSchema, titleListSchema } from "@/schemas/listsSchema";
 
 const listsRouter = Router();
 
 listsRouter
   .all("/*", authenticateToken)
-  .post("/add", validateBody(titleListSchema), newListPost)
+  .post("/add", validateBody(newListSchema), newListPost)
   .get("/all", allListsGet)
   .delete("/:listId", listDelete)
-  .put("/:listId", editTitleList);
+  .put("/:listId", validateBody(titleListSchema), editTitleList)
+  .put("/order/:listId", validateBody(orderListSchema), editOrderList);
 
 export { listsRouter };

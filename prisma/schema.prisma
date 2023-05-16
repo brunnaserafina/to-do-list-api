@@ -11,6 +11,7 @@ model lists {
   id         Int       @id(map: "lists_pk") @default(autoincrement())
   title      String
   user_id    Int
+  order      Int
   created_at DateTime? @default(now()) @db.Timestamp(6)
   users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "lists_fk0")
   tasks      tasks[]
@@ -38,8 +39,9 @@ model tasks {
   id             Int        @id(map: "tasks_pk") @default(autoincrement())
   list_id        Int
   name           String
-  annotation     String
+  annotation     String?
   date           DateTime?  @db.Date
+  order          Int
   using_pomodoro Boolean    @default(false)
   is_completed   Boolean    @default(false)
   created_at     DateTime?  @default(now()) @db.Timestamp(6)

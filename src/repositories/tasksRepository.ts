@@ -1,23 +1,23 @@
 import { prisma } from "@/config";
 
-async function createTask(name: string, listId: number) {
-  return prisma.tasks.create({ data: { list_id: listId, name, annotation: "" } });
+async function createTask(name: string, listId: number, order: number) {
+  return prisma.tasks.create({ data: { list_id: listId, name, annotation: "", order } });
 }
 
 async function findManyUnfinishedTasks(listId: number) {
-  return prisma.tasks.findMany({ where: { list_id: listId, is_completed: false }, orderBy: { created_at: "asc" } });
+  return prisma.tasks.findMany({ where: { list_id: listId, is_completed: false }, orderBy: { order: "asc" } });
 }
 
 async function findManyFinishedTasks(listId: number) {
-  return prisma.tasks.findMany({ where: { list_id: listId, is_completed: true }, orderBy: { created_at: "desc" } });
+  return prisma.tasks.findMany({ where: { list_id: listId, is_completed: true }, orderBy: { order: "asc" } });
 }
 
-async function updateFinishedTask(taskId: number) {
-  return prisma.tasks.update({ where: { id: taskId }, data: { is_completed: true } });
+async function updateFinishedTask(taskId: number, order: number) {
+  return prisma.tasks.update({ where: { id: taskId }, data: { is_completed: true, order } });
 }
 
-async function updateUnfinishedTask(taskId: number) {
-  return prisma.tasks.update({ where: { id: taskId }, data: { is_completed: false } });
+async function updateUnfinishedTask(taskId: number, order: number) {
+  return prisma.tasks.update({ where: { id: taskId }, data: { is_completed: false, order } });
 }
 
 async function deleteTask(listId: number) {
@@ -43,6 +43,14 @@ async function deleteTaskByTaskId(taskId: number) {
   return prisma.tasks.delete({ where: { id: taskId } });
 }
 
+async function editTaskNameByTaskId(taskId: number, name: string) {
+  return prisma.tasks.update({ where: { id: taskId }, data: { name } });
+}
+
+async function updateOrderTaskByTaskId(taskId: number, order: number) {
+  return prisma.tasks.update({ where: { id: taskId }, data: { order } });
+}
+
 const tasksRepository = {
   createTask,
   findManyUnfinishedTasks,
@@ -54,6 +62,8 @@ const tasksRepository = {
   updateAnotationByTaskId,
   deleteTaskByTaskId,
   updateUnfinishedTask,
+  editTaskNameByTaskId,
+  updateOrderTaskByTaskId,
 };
 
 export default tasksRepository;

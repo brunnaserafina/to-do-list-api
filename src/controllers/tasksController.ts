@@ -3,23 +3,24 @@ import {
   allTasksUnfinished,
   deleteTaskById,
   editAnotationByTaskId,
+  editOrderTaskByTaskId,
   editTaskFinished,
+  editTaskNameById,
   editTaskUnfinished,
   getTaskById,
   newTask,
   searchTask,
-  TitleTaskParams,
 } from "./../services/taskService";
 import { AuthenticatedRequest } from "@/middlewares/authenticatedMiddleware";
 import { Response } from "express";
 import httpStatus from "http-status";
 
 export async function newTaskPost(req: AuthenticatedRequest, res: Response) {
-  const { name } = req.body as TitleTaskParams;
+  const { name, order } = req.body;
   const { listId } = req.params;
 
   try {
-    await newTask(name, Number(listId));
+    await newTask(name, Number(listId), order);
     return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).send({ error });
@@ -50,9 +51,10 @@ export async function finishedTasksGet(req: AuthenticatedRequest, res: Response)
 
 export async function editTasksPut(req: AuthenticatedRequest, res: Response) {
   const { taskId } = req.params;
+  const { order } = req.body;
 
   try {
-    await editTaskFinished(Number(taskId));
+    await editTaskFinished(Number(taskId), order);
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).send({});
@@ -61,9 +63,10 @@ export async function editTasksPut(req: AuthenticatedRequest, res: Response) {
 
 export async function editTaskUnfinishedPut(req: AuthenticatedRequest, res: Response) {
   const { taskId } = req.params;
+  const { order } = req.body;
 
   try {
-    await editTaskUnfinished(Number(taskId));
+    await editTaskUnfinished(Number(taskId), order);
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).send({});
@@ -116,6 +119,30 @@ export async function deleteTask(req: AuthenticatedRequest, res: Response) {
 
   try {
     await deleteTaskById(Number(taskId));
+    return res.sendStatus(httpStatus.OK);
+  } catch (error) {
+    return res.sendStatus(httpStatus.UNAUTHORIZED);
+  }
+}
+
+export async function editTaskName(req: AuthenticatedRequest, res: Response) {
+  const { taskId } = req.params;
+  const { name } = req.body;
+
+  try {
+    await editTaskNameById(Number(taskId), name);
+    return res.sendStatus(httpStatus.OK);
+  } catch (error) {
+    return res.sendStatus(httpStatus.UNAUTHORIZED);
+  }
+}
+
+export async function editOrderTasks(req: AuthenticatedRequest, res: Response) {
+  const { taskId } = req.params;
+  const { order } = req.body;
+
+  try {
+    await editOrderTaskByTaskId(Number(taskId), order);
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     return res.sendStatus(httpStatus.UNAUTHORIZED);

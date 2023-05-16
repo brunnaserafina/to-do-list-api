@@ -1,10 +1,8 @@
 import listRepository from "@/repositories/listsRepository";
 import tasksRepository from "@/repositories/tasksRepository";
 
-export async function newList(params: TitleListParams): Promise<void> {
-  const { title, userId } = params;
-
-  await listRepository.createList(title, userId);
+export async function newList(title: string, userId: number, order: number) {
+  await listRepository.createList(title, userId, order);
 }
 
 export async function allLists(userId: number) {
@@ -22,4 +20,10 @@ export async function editList(listId: number, title: string) {
   await listRepository.editListByListId(listId, title);
 }
 
-export type TitleListParams = { title: string; userId: number };
+export async function editOrderByListId(listId: number, order: number) {
+  await listRepository.updateOrderByListId(listId, order);
+}
+
+export type NewListParams = { title: string; order: number };
+export type TitleListParams = { title: string };
+export type OrderListParams = { order: number };

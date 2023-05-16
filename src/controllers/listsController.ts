@@ -1,14 +1,15 @@
 import { AuthenticatedRequest } from "@/middlewares/authenticatedMiddleware";
-import { allLists, deleteList, editList, newList, TitleListParams } from "@/services/listsService";
+import { allLists, deleteList, editList, editOrderByListId, newList } from "@/services/listsService";
 import { Response } from "express";
 import httpStatus from "http-status";
 
 export async function newListPost(req: AuthenticatedRequest, res: Response) {
-  const { title } = req.body as TitleListParams;
+  const { title } = req.body;
+  const { order } = req.body;
   const { userId } = req;
 
   try {
-    await newList({ title, userId });
+    await newList(title, userId, order);
     return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).send({});
@@ -43,6 +44,18 @@ export async function editTitleList(req: AuthenticatedRequest, res: Response) {
 
   try {
     await editList(Number(listId), title);
+    return res.sendStatus(httpStatus.OK);
+  } catch (error) {
+    return res.status(httpStatus.UNAUTHORIZED).send({});
+  }
+}
+
+export async function editOrderList(req: AuthenticatedRequest, res: Response) {
+  const { listId } = req.params;
+  const { order } = req.body;
+
+  try {
+    await editOrderByListId(Number(listId), order);
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     return res.status(httpStatus.UNAUTHORIZED).send({});

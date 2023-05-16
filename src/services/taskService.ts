@@ -1,7 +1,7 @@
 import tasksRepository from "../repositories/tasksRepository";
 
-export async function newTask(name: string, listId: number) {
-  await tasksRepository.createTask(name, listId);
+export async function newTask(name: string, listId: number, order: number) {
+  await tasksRepository.createTask(name, listId, order);
 }
 
 export async function allTasksUnfinished(listId: number) {
@@ -16,12 +16,12 @@ export async function allTasksFinished(listId: number) {
   return tasks;
 }
 
-export async function editTaskFinished(taskId: number) {
-  await tasksRepository.updateFinishedTask(taskId);
+export async function editTaskFinished(taskId: number, order: number) {
+  await tasksRepository.updateFinishedTask(taskId, order);
 }
 
-export async function editTaskUnfinished(taskId: number) {
-  await tasksRepository.updateUnfinishedTask(taskId);
+export async function editTaskUnfinished(taskId: number, order: number) {
+  await tasksRepository.updateUnfinishedTask(taskId, order);
 }
 
 export async function searchTask(search: string, userId: number) {
@@ -43,4 +43,15 @@ export async function deleteTaskById(taskId: number) {
   await tasksRepository.deleteTaskByTaskId(taskId);
 }
 
-export type TitleTaskParams = { name: string };
+export async function editTaskNameById(taskId: number, name: string) {
+  await tasksRepository.editTaskNameByTaskId(taskId, name);
+}
+
+export async function editOrderTaskByTaskId(taskId: number, order: number) {
+  await tasksRepository.updateOrderTaskByTaskId(taskId, order);
+}
+
+export type NewTaskParams = { name: string; order: number };
+export type NameTaskParams = { name: string };
+export type OrderTaskParams = { order: number };
+export type AnnotationAndDateParams = { annotation: string; date: Date };
